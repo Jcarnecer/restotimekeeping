@@ -16,7 +16,7 @@ class Dashboard extends MY_Controller {
         case "testing":
         redirect('http://timekeeping.payakapps.com/timesheet');break;
         default :
-        redirect('http://localhost/timekeeping/timesheet');break;
+        redirect('http://localhost/restotimekeeping/timesheet');break;
         }
      }
 }

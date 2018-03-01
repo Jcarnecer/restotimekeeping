@@ -19,12 +19,12 @@ body {
   border: none; }
 
 .custom-button, .intern-attendance-button {
-  background-color: #38b5ff;
+  background-color: #D24D57;
   border: none;
   color: #ffffff;
   font-size: 14px; }
   .custom-button:hover, .intern-attendance-button:hover {
-    background-color: #3679b2; }
+    background-color: #9D2933; }
 
 .btn-group .btn-custom {
   border: 1px solid #cccccc;
@@ -46,20 +46,30 @@ body {
 .navbar-custom {
   background-color: #ffffff;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.15);
-  color: #38b5ff;
+  color: #D24D57;
   justify-content: left;
   margin-bottom: 20px; }
   .navbar-custom a {
     color: #626262; }
-    .navbar-custom a:hover {
-      color: #3679b2;
-      text-decoration: none; }
+    /* .navbar-custom .dropdown-item:hover {
+      color: #9D2933;
+      text-decoration: none; } */
+
+.dropdown-menu .dropdown-item:hover, 
+.dropdown-menu .dropdown-item:active,
+.dropdown-menu .dropdown-item:focus  {
+  background: #f2f2f2 !important;
+  color: #9D2933 !important;
+  cursor: pointer !important;
+  overflow: hidden;
+  text-decoration: none;
+  width: auto; }  
 
 #sidebar {
   width: 210px;
   height: 100%;
   position: fixed;
-  background: #273d6a;
+  background: #222a36;
   overflow-y: auto;
   transition: .5s;
   -webkit-transition: .5s;
@@ -77,14 +87,15 @@ body {
     padding: 15px 30px 15px 30px;
     white-space: nowrap; }
     #sidebar a:hover {
-      background-color: #082742;
-      border-left: 5px solid #3679b2;
+      background-color: #29394c;
+      border-left: 5px solid #D24D57;
       text-decoration: none; }
     #sidebar a span {
       display: inline-grid;
       white-space: normal; }
   #sidebar .active {
-    background-color: pink; }
+    background-color: #29394c;
+    border-left: 5px solid #D24D57; }
   #sidebar ul.sub li {
     padding-left: 30px; }
   #sidebar ul.sub a {
@@ -174,9 +185,9 @@ body {
   .dataTables_wrapper .dataTables_paginate a.paginate_button.current {
     border-radius: 50%; }
   .dataTables_wrapper .dataTables_paginate a.paginate_button:hover {
-    background: #3679b2;
-    background-color: #3679b2;
-    border: 1px solid #3679b2;
+    background: #9D2933;
+    /* background-color: #3679b2; */
+    border: 1px solid #D24D57;
     border-radius: 50%;
     color: #ffffff !important; }
   .dataTables_wrapper .dataTables_paginate a.paginate_button:focus {
@@ -187,13 +198,8 @@ body {
   .dataTables_wrapper .dataTables_paginate a.next:hover, .dataTables_wrapper .dataTables_paginate a.previous:hover {
     background: none;
     border: 1px solid transparent;
-    color: #3679b2 !important;
+    color: #9D2933 !important;
     cursor: pointer; }
-
-.dropdown-item:hover, .dropdown-item:active {
-  background-color: #3679b2;
-  color: #ffffff;
-  width: auto; }
 
 #DateTime {
   display: block;
@@ -231,23 +237,23 @@ body {
       width: 40%; }
 
 #calendar .ui-state-active, #calendar .ui-button:active {
-  background: #38b5ff;
-  border: 1px solid #3679b2;
+  background: #D24D57;
+  border: 1px solid #9D2933;
   color: #ffffff; }
   #calendar .ui-state-active:hover, #calendar .ui-button:hover:active {
-    background: #3679b2; }
+    background: #9D2933 }
 
 #overtime-details-modal table td {
   border-top: 0; }
 
-.dropdown-item:hover, .dropdown-item:active {
+/* .dropdown-item:hover, .dropdown-item:active {
   background-color: #3679b2;
   color: #ffffff !important;
   cursor: pointer;
-  width: auto; }
+  width: auto; } */
 
 #shiftDock {
-  background: #273d6a;
+  background: #222a36;
   border: none;
   bottom: 100px;
   height: 510px;
