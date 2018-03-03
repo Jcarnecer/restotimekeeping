@@ -145,7 +145,7 @@ class Crud_model extends CI_Model{
 		$this->db->select('*');
 		$this->db->from('users');
 		$this->db->join('timekeeping_users_shift', 'users.id = timekeeping_users_shift.users_id');
-		$this->db->where('company_id', $this->session->user->company_id);
+		$this->db->where('timekeeping_users_shift.company_id', $this->session->user->company_id);
 		$query=$this->db->get();
 		return	$query->result();
 	}
@@ -181,6 +181,7 @@ class Crud_model extends CI_Model{
 		$this->db->select('users.*,timekeeping_record_overtime.*,users.id AS uid, timekeeping_record_overtime.id as rid');
 		$this->db->from('users');
 		$this->db->join('timekeeping_record_overtime', 'users.id = timekeeping_record_overtime.user_id');
+		$this->db->Where('timekeeping_record_overtime.company_id',$this->session->user->company_id);
 		$query = $this->db->get();
 		return $query->result();
 	}
