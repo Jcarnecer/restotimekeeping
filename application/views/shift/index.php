@@ -10,8 +10,11 @@ if($segment2 == 'front'){
     $this->load->view('shift/backHouse');
 }elseif($segment1 == 'shift'){?>
         <h3>Shift Type</h3>
-            <br><hr>
+        <button class="btn custom-button float-right" data-toggle="modal" data-target="#e-sh-modal" id="btn_add_shift">Add Shift</button>
+            <br>
+            <hr>
             <div class="table-responsive">
+
                 <table class="table table-bordered" id="tktbl">
                     <thead>
                         <tr>
@@ -28,7 +31,11 @@ if($segment2 == 'front'){
                 </table>
             </div>
         </div>
-        <?php $this->load->view('shift/partials/edit_modal');}
+        
+        <?php
+       
+        $this->load->view('shift/partials/edit_modal');
+        }
 
 ?>
 

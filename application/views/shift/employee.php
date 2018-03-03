@@ -8,7 +8,7 @@
         </div>
         <div id="shift-<?= $shift->id ?>" class="card-body shift-table" ondrop="drop(event)" ondragover="allowDrop(event)">
         	<?php foreach($all_employee as $employee):
-        			$e_shift=null;
+                    $e_shift=null;
         			foreach ($all_emp_shift as $emp_shift)
         				if($employee->id == $emp_shift->users_id) 
 		        			if($shift->id == $emp_shift->shift_id && $emp_shift->house==$my_sched) {

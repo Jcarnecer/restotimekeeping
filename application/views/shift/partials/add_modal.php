@@ -1,20 +1,20 @@
 <!-- Modal -->
-<div class="modal fade" id="e-sh-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" >
+<div class="modal fade" id="add-shift-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Shift</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Add Shift</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
       <div class="modal-body">
-        <form id="shift-form" method="POST" autocomplete="off">
+        <form id="add-shift-form" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Shift</label>
-              <input type="text" id="shift-type"  name="shift" class="form-control">
+              <input type="text" id="shift-type" name="shift" class="form-control">
             </div>
             
             <div class=form-group>
@@ -42,11 +42,8 @@
       </div>
       <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn custom-button" data-function='' id="btn-save">Save</button>
+            <button type="submit" class="btn custom-button">Save</button>
           </form>
         </div>
   </div>
 </div>
-
-
-

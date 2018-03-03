@@ -7,7 +7,7 @@ class Attendance extends MY_Controller {
       return parent::mainpage('attendance/index',
             [
                 'title' => 'Timesheet',
-                'record'	=> $this->Crud_model->fetch('timekeeping_record'),
+                'record'	=> $this->Crud_model->fetch('timekeeping_record',['company_id'=>$this->session->user->company_id]),
             ]
         );
 	}
@@ -239,6 +239,7 @@ class Attendance extends MY_Controller {
                     'time_out' => clean_data($timeout),
                     'status' => "Employee Attendance",
                     'intern_no_hrs' => $no_of_hrs,
+                    'company_id'=>$this->session->user->company_id,
                 ];
                 $this->Crud_model->insert('timekeeping_record',$insert);
                
@@ -257,7 +258,7 @@ class Attendance extends MY_Controller {
     public function get_timesheet(){
         $order_by = "id desc";
         $user_id = $this->user->info('id');
-        $where = ['user_id' => $user_id];
+        $where = ['user_id' => $user_id,'company_id'=>$this->session->user->company_id];
         $timesheet = $this->Crud_model->fetch('timekeeping_record',$where,"","",$order_by); ?>
         <table class="table table-bordered" id="timesheet-table">
           <thead>
@@ -324,7 +325,8 @@ class Attendance extends MY_Controller {
 
     public function get_employee_attendance() {
         // $order_by = "lastname desc";
-        $timesheet = $this->Crud_model->join_tag_result('users.*,timekeeping_record.*,timekeeping_record.id AS rid,users.id AS uid','users','','timekeeping_record','users.id = timekeeping_record.user_id ',"inner");
+        $where=['timekeeping_record.company_id'=>$this->session->user->company_id];
+        $timesheet = $this->Crud_model->join_tag_result('users.*,timekeeping_record.*,timekeeping_record.id AS rid,users.id AS uid','users',$where,'timekeeping_record','users.id = timekeeping_record.user_id',"inner");
         // print_r($timesheet);die;
         if(!$timesheet == NULL){
             foreach ($timesheet as $row) :
@@ -359,22 +361,24 @@ class Attendance extends MY_Controller {
             'date_submitted' => clean_data($now->format('Y-m-d')),
             'ot_hours' => clean_data($diff),
             'status' => 0,
+            'company_id'=>$this->session->user->company_id,
         ];
         $this->Crud_model->insert('timekeeping_record_overtime', $insert);
         //position
-        $position_id = $this->user->info('position_id');
-        $pos_where = ['id'  => $position_id];
-        $position = $this->Crud_model->fetch_tag_row('*','position',$pos_where);
-        parent::audittrail(
-            'File Overtime',
-            'Filed Overtime',
-            $this->user->info('firstname') .' '. $this->user->info('lastname'),
-            $position->name,
-            $this->input->ip_address()
-        );
+        // $position_id = $this->user->info('position_id');
+        // $pos_where = ['id'  => $position_id];
+        // $position = $this->Crud_model->fetch_tag_row('*','position',$pos_where);
+        // parent::audittrail(
+        //     'File Overtime',
+        //     'Filed Overtime',
+        //     $this->user->info('firstname') .' '. $this->user->info('lastname'),
+        //     $position->name,
+        //     $this->input->ip_address()
+        // );
     }
 
     public function get_admin_overtime(){
+        $where=['company_id'=>$this->session->user->company_id];
       $overtime = $this->Crud_model->join_user_overtime(); ?>
       <?php
       if(!$overtime == NULL){
@@ -443,7 +447,7 @@ class Attendance extends MY_Controller {
 
     public function get_overtime_details($id){
       $decrypt_id = secret_url('decrypt',$id);
-      $where = ['id' => $decrypt_id];
+      $where = ['id' => $decrypt_id,'company_id'=>$this->session->user->company_id];
       $overtime = $this->db->get_where('timekeeping_record_overtime',$where)->row();
       print json_encode($overtime);
     }
@@ -451,7 +455,7 @@ class Attendance extends MY_Controller {
     public function get_employee_overtime(){
         $order_by = "id desc";
         $user_id = $this->user->info('id');
-        $where = ['user_id' => $user_id];
+        $where = ['user_id' => $user_id,'company_id' => $this->session->user->company_id];
         $overtime = $this->Crud_model->fetch('timekeeping_record_overtime',$where,"","",$order_by);  ?>
         <table class="table table-bordered" id="employee-overtime-table">
         <thead>
@@ -498,7 +502,7 @@ class Attendance extends MY_Controller {
     public function approve_ot() {  
         $id = $this->input->post('id');
         $decrypt_id = secret_url('decrypt',$id);
-        $where = ['id'  => $decrypt_id];
+        $where = ['id'  => $decrypt_id,'company_id'=>$this->session->user->company_id];
         $approve = [
             'status'   => 1
         ];
@@ -523,15 +527,15 @@ class Attendance extends MY_Controller {
     public function reject_ot() {  
         $id = $this->input->post('id');
         $decrypt_id = secret_url('decrypt',$id);
-        $where = ['id'  => $decrypt_id];
+        $where = ['id'  => $decrypt_id,'company_id'=>$this->session->user->company_id];
         $approve = [
             'status'   => 2
         ];
         $this->Crud_model->update('timekeeping_record_overtime',$approve,$where);
         //user
-        $get_user_id = $this->Crud_model->fetch_tag_row('*','timekeeping_record_overtime',$where);
-        $user_where = ['id' => $get_user_id->user_id];
-        $user = $this->Crud_model->fetch_tag_row('*','users',$user_where);
+        // $get_user_id = $this->Crud_model->fetch_tag_row('*','timekeeping_record_overtime',$where);
+        // $user_where = ['id' => $get_user_id->user_id];
+        // $user = $this->Crud_model->fetch_tag_row('*','users',$user_where);
         //position
         // $position_id = $this->user->info('position_id');
         // $pos_where = ['id'  => $position_id];

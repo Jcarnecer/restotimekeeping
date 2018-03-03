@@ -10,9 +10,9 @@
 				<span></span>
 				<span></span>
 			</div>
-			<a class="navbar-brand mr-auto" href="#">Payakapps</a>
+			<a class="navbar-brand mr-auto" href="#">RestoShift</a>
 			<!-- <a class="nav-link" href="profile">My Profile</a> -->
-			<a class="nav-text" href="http://localhost/main">Home</a>
+			<a class="nav-text" href="http://localhost/resto">Home</a>
 
 
 		</nav>

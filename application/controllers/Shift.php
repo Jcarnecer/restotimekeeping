@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Shift extends MY_Controller {
 
 	public function index() {
-        $get_all_shift = $this->Crud_model->fetch('timekeeping_shift');
+        $get_all_shift = $this->Crud_model->fetch('timekeeping_shift',['company_id'=>$this->session->user->company_id]);
         parent::mainpage('shift/index',
             [
                 'title' => 'Shift List',
@@ -14,7 +14,7 @@ class Shift extends MY_Controller {
     }
 
     public function front_house() {
-        $get_all_shift = $this->Crud_model->fetch('timekeeping_shift');
+        $get_all_shift = $this->Crud_model->fetch('timekeeping_shift',['company_id'=>$this->session->user->company_id]);
 
         # ---------------------------------------------------------------------------------------------------------------
         
@@ -37,7 +37,7 @@ class Shift extends MY_Controller {
     }
 
     public function back_house(){
-        $get_all_shift = $this->Crud_model->fetch('timekeeping_shift');
+        $get_all_shift = $this->Crud_model->fetch('timekeeping_shift',['company_id'=>$this->session->user->company_id]);
 
         $get_all_sched = $this->Crud_model->get_users('back');
         $get_employee=$this->Crud_model->get_users('');
@@ -58,20 +58,21 @@ class Shift extends MY_Controller {
     
     }
     public function eschedule() {
-        $get_all_shift = $this->Crud_model->fetch('timekeeping_shift');
+        $get_all_shift = $this->Crud_model->fetch('timekeeping_shift',['company_id'=>$this->session->user->company_id]);
 
         $get_all_employee = $this->Crud_model->fetch('users');                
         
         $get_all_emp_shift = $this->Crud_model->fetch('timekeeping_users_shift');
         $user=$this->user->info('id');
-        $get_mysched=$this->Crud_model->fetch_tag_row('*','timekeeping_users_shift',['users_id'=>$user]);
+        $get_mysched=$this->Crud_model->fetch_tag_row('*','timekeeping_users_shift',['users_id'=>$user,'company_id'=>$this->session->user->company_id]);
+
         parent::mainpage('shift/index',
             [
                 'title' => 'Schedule',
                 'all_shift' => $get_all_shift,
                 'all_employee' => $get_all_employee,
                 'all_emp_shift' => $get_all_emp_shift,
-                'my_sched'=>$get_mysched->house
+                'my_sched'=>$get_mysched==null?"":$get_mysched->house 
             ]
         );
 
@@ -79,7 +80,7 @@ class Shift extends MY_Controller {
     }
 
     public function get_shift() {
-		$shift = $this->Crud_model->fetch('timekeeping_shift');
+		$shift = $this->Crud_model->fetch('timekeeping_shift',['company_id'=>$this->session->user->company_id]);
         $x = 1;
 
         if(!$shift == NULL){
@@ -105,6 +106,46 @@ class Shift extends MY_Controller {
 		<?php $x+=1; endforeach; }
     }
 
+    public function add_shift(){
+        $this->form_validation->set_rules('start','Start time','required|regex_match[/^([0-9-:]|\s)+$/]');
+        $this->form_validation->set_rules('end','End time','required|regex_match[/^([0-9-:]|\s)+$/]');
+        if($this->form_validation->run() == FALSE) {
+            $error = [
+                'start_error'   =>    form_error('start'),
+                'end_error'     =>    form_error('end'),
+            ];
+            echo json_encode($error);
+        }else{
+         
+            $insert = [
+                'shift_type'   =>   clean_data($this->input->post('shift')),
+                'start_time'    =>    clean_data($this->input->post('start')),
+                'end_time'    =>    clean_data($this->input->post('end')),
+                'front'=>  clean_data($this->input->post('front')),
+                'back'=>  clean_data($this->input->post('back')),
+                'company_id'=>$this->session->user->company_id
+            ];
+            $this->Crud_model->insert('timekeeping_shift',$insert);
+            $success = [
+                'success'   =>    1,
+                'shift'    => clean_data($this->input->post('shift'))    
+            ];
+
+            //position
+			// $position_id = $this->user->info('role');
+			// $pos_where = ['id'  => $position_id];
+			// $position = $this->Crud_model->fetch_tag_row('*','position',$pos_where);
+			// parent::audittrail(
+			// 	'Shift Modify',
+			// 	'Edit '.$success['shift'].' Shift',
+			// 	$this->user->info('firstname') .' '. $this->user->info('lastname'),
+			// 	$position->name,
+			// 	$this->input->ip_address()
+			// );
+            echo json_encode($success);
+        }
+    }
+
     public function edit_shift() {
         $this->form_validation->set_rules('start','Start time','required|regex_match[/^([0-9-:]|\s)+$/]');
         $this->form_validation->set_rules('end','End time','required|regex_match[/^([0-9-:]|\s)+$/]');
@@ -118,10 +159,12 @@ class Shift extends MY_Controller {
             $decrypt_id = secret_url('decrypt',$this->input->post('id'));
             $where = ['id' => $decrypt_id];
             $update = [
+                'shift_type'   =>   clean_data($this->input->post('shift')),
                 'start_time'    =>    clean_data($this->input->post('start')),
                 'end_time'    =>    clean_data($this->input->post('end')),
                 'front'=>  clean_data($this->input->post('front')),
                 'back'=>  clean_data($this->input->post('back')),
+                'company_id'=>$this->session->user->company_id
             ];
             $this->Crud_model->update('timekeeping_shift',$update,$where);
             $success = [
@@ -148,7 +191,7 @@ class Shift extends MY_Controller {
         $house=clean_data($this->input->post('house'));
         $shift=clean_data($this->input->post('shift_id'));
         $data=['shift_id' => $shift,'house'=> $house];
-        $where=['users_id' => $this->input->post('user_id')];
+        $where=['users_id' => $this->input->post('user_id'),'timekeeping_users_shift.company'=>$this->session->user->company_id];
         $count=$this->Crud_model->count('users_id','timekeeping_users_shift',$data);
         $employees=$this->Crud_model->fetch_tag_row('*','timekeeping_shift',['id'=>$this->input->post('shift_id')]);
         
