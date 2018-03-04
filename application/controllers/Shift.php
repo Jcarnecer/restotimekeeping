@@ -62,7 +62,7 @@ class Shift extends MY_Controller {
 
         $get_all_employee = $this->Crud_model->fetch('users');                
         
-        $get_all_emp_shift = $this->Crud_model->fetch('timekeeping_users_shift',['company_id'=>$this->session->user->compnay_id]);
+        $get_all_emp_shift = $this->Crud_model->fetch('timekeeping_users_shift',['company_id'=>$this->session->user->company_id]);
         $user=$this->user->info('id');
         $get_mysched=$this->Crud_model->fetch_tag_row('*','timekeeping_users_shift',['users_id'=>$user,'company_id'=>$this->session->user->company_id]);
 
