@@ -62,7 +62,7 @@ class Shift extends MY_Controller {
 
         $get_all_employee = $this->Crud_model->fetch('users');                
         
-        $get_all_emp_shift = $this->Crud_model->fetch('timekeeping_users_shift');
+        $get_all_emp_shift = $this->Crud_model->fetch('timekeeping_users_shift',['company_id'=>$this->session->user->compnay_id]);
         $user=$this->user->info('id');
         $get_mysched=$this->Crud_model->fetch_tag_row('*','timekeeping_users_shift',['users_id'=>$user,'company_id'=>$this->session->user->company_id]);
 
@@ -157,7 +157,7 @@ class Shift extends MY_Controller {
             echo json_encode($error);
         }else{
             $decrypt_id = secret_url('decrypt',$this->input->post('id'));
-            $where = ['id' => $decrypt_id];
+            $where = ['id' => $decrypt_id,'company_id'=>$this->session->user->company_id];
             $update = [
                 'shift_type'   =>   clean_data($this->input->post('shift')),
                 'start_time'    =>    clean_data($this->input->post('start')),
@@ -190,7 +190,7 @@ class Shift extends MY_Controller {
     public function change_shift() {  
         $house=clean_data($this->input->post('house'));
         $shift=clean_data($this->input->post('shift_id'));
-        $data=['shift_id' => $shift,'house'=> $house];
+        $data=['shift_id' => $shift,'house'=> $house,'company_id'=>$this->session->user->company_id];
         $where=['users_id' => $this->input->post('user_id'),'timekeeping_users_shift.company'=>$this->session->user->company_id];
         $count=$this->Crud_model->count('users_id','timekeeping_users_shift',$data);
         $employees=$this->Crud_model->fetch_tag_row('*','timekeeping_shift',['id'=>$this->input->post('shift_id')]);
