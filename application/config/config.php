@@ -27,14 +27,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 switch(ENVIRONMENT) {
 
-	case 'production':
-		$config['base_url'] = 'http://timekeeping.payakapps.com/';
-		break;
-	case 'testing':
-		$config['base_url'] = 'http://stage.payakapps.com/';
-		break;
+	// case 'production':
+	// 	$config['base_url'] = 'http://timekeeping.payakapps.com/';
+	// 	break;
+	// case 'testing':
+	// 	$config['base_url'] = 'http://stage.payakapps.com/';
+	// 	break;
 	default:
-		$config['base_url'] = 'http://localhost/timekeeping/';
+		$config['base_url'] = 'http://localhost/restotimekeeping/';
 		break;
 }
 
