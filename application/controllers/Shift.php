@@ -191,7 +191,7 @@ class Shift extends MY_Controller {
         $house=clean_data($this->input->post('house'));
         $shift=clean_data($this->input->post('shift_id'));
         $data=['shift_id' => $shift,'house'=> $house,'company_id'=>$this->session->user->company_id];
-        $where=['users_id' => $this->input->post('user_id'),'timekeeping_users_shift.company'=>$this->session->user->company_id];
+        $where=['users_id' => $this->input->post('user_id'),'timekeeping_users_shift.company_id'=>$this->session->user->company_id];
         $count=$this->Crud_model->count('users_id','timekeeping_users_shift',$data);
         $employees=$this->Crud_model->fetch_tag_row('*','timekeeping_shift',['id'=>$this->input->post('shift_id')]);
         
