@@ -255,7 +255,7 @@ body {
 #shiftDock {
   background: #222a36;
   border: none;
-  bottom: 100px;
+  bottom: 200px;
   height: 510px;
   transition-duration: 0.2s;
   transition-delay: 0.5s; }

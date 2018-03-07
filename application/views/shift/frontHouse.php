@@ -28,9 +28,9 @@
 </div>
 
 <div id="shiftDock" class="position-fixed mx-auto card card-body w-75" style="overflow-y: auto;">
-    <div id="shiftDockColumn" class="shift-card card-columns h-100 w-100" data-id="null" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <div id="shiftDockColumn" class="shift-table card-columns h-100 w-100" data-id="null" ondrop="drop(event)" ondragover="allowDrop(event)">
         <?php foreach($employee_nosched as $employee): ?>
-        <?php if($employee->shift_id==null || $employee->house==null): ?>
+        <?php if($employee->shift_id==0 || $employee->shift_id==null): ?>
             <div id="user-<?= $employee->id ?>" class="card my-2 custom-card" draggable="true" ondragstart="drag(event)" data-id="<?= $employee->users_id ?>" data-house="front">
                 <div class="card-body">
                     <div class="card-text"><?= $employee->first_name . ' ' . $employee->last_name ?></div>

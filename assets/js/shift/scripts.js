@@ -6,7 +6,6 @@ function fetch_shift() {
             $("#shiftdata").html(data);
             $("#tktbl").DataTable({
                 "retrieve":true,
-                "scrollY":"350px",
                 "scrollCollapse": true,
             });
         }
@@ -133,7 +132,7 @@ function drop(e) {
 
     console.log($(e.target));
 
-    var $shiftColumn = $(`#${e.target.id}`);
+    var $shiftColumn = $(e.target).hasClass('shiftColumn') ? $(e.target) : $(e.target).closest('.shift-table');
     var $userCard = $(`#${e.dataTransfer.getData("text")}`);
     // var $data = $(`#${e.dataTransfer.getData("text")}`);
     // e.target.appendChild(document.getElementById(e.dataTransfer.getData("text")));
