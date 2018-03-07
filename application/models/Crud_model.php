@@ -147,7 +147,13 @@ class Crud_model extends CI_Model{
 		$this->db->join('timekeeping_users_shift', 'users.id = timekeeping_users_shift.users_id');
 		$this->db->where('timekeeping_users_shift.company_id', $this->session->user->company_id);
 		$query=$this->db->get();
-		return	$query->result();
+		if($query->num_rows>0){
+			return $query->result();
+		}
+		else{
+		    return false;		
+		}
+		
 	}
 
 	public function join_user_record_row($id){
