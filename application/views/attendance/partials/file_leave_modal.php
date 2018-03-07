@@ -1,5 +1,5 @@
 <?php
-$leave=$this->Crud_model->fetch('timekeeping_leave');
+$leave=$this->Crud_model->fetch('timekeeping_leave',['company_id'=>$this->session->user->company_id]);
 ?>
 <div class="modal fade" id="file-leave-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" >
   <div class="modal-dialog" role="document">
